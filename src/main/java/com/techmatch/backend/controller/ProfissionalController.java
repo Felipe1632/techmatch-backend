@@ -6,6 +6,7 @@ package com.techmatch.backend.controller;
 
 import com.techmatch.backend.model.ProfissionalDTO;
 import com.techmatch.backend.model.UserRequestDTO;
+import com.techmatch.backend.service.ProfissionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

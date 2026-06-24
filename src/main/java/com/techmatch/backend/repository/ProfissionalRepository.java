@@ -9,11 +9,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Usuario
  */
+@Repository
 public class ProfissionalRepository {
         public void register(ProfissionalDTO user){
       try{
@@ -56,7 +58,12 @@ public class ProfissionalRepository {
             if(rs.next()){
                 user.setId(rs.getLong("id"));
                 user.setNome(rs.getString("email"));
-                user.setEmail(rs.getString("senha"));                
+                user.setEmail(rs.getString("senha"));
+                user.setCpf(rs.getString("cpf"));
+                user.setTelefone(rs.getString("telefone"));
+                user.setCidade(rs.getString("cidade"));
+                user.setEstado(rs.getString("estado"));
+                
             }
             
         }catch(SQLException e){
