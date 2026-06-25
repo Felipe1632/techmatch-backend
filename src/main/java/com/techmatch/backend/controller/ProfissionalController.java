@@ -32,5 +32,5 @@ public class ProfissionalController {
     @PostMapping("/logar")
     public String login (@RequestBody UserRequestDTO user){
         return service.logar(user);        
-    }
+    } 
 }

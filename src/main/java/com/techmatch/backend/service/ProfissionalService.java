@@ -60,6 +60,6 @@ public class ProfissionalService {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
         }
         ProfissionalDTO dadosLogado = repository.logar(user.getEmail(), user.getSenha());
-        return tokenservice.gerarToken(dadosLogado);
+            return tokenservice.gerarToken(dadosLogado);
         }
 }

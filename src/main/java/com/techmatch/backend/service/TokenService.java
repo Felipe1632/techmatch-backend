@@ -5,6 +5,8 @@
 package com.techmatch.backend.service;
 
 import com.techmatch.backend.model.ProfissionalDTO;
+import com.techmatch.backend.model.UserRequestDTO;
+import com.techmatch.backend.repository.ProfissionalRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
@@ -25,6 +27,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class TokenService {
     @Value("${api.security.token.secret}")
     private String secret;
+    
+    private ProfissionalRepository repository;
+    
+    UserRequestDTO userRequest = new UserRequestDTO();
     
     public SecretKey getKeySign() {
         byte[] keyBytes = Decoders.BASE64.decode(this.secret);

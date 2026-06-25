@@ -21,7 +21,7 @@ public class ProfissionalRepository {
       try{
          Connection conn = Conexao.conectar();
          PreparedStatement stmt = null;
-         stmt = conn.prepareStatement("insert into profissional (nome, email, senha, cpf, telefone, cidade, estado) values (?,?,?,?,?,?,?)");
+         stmt = conn.prepareStatement("insert into profissional (nome, email, senha, cpf, telefone, cidade, estado, valor_hora) values (?,?,?,?,?,?,?,?)");
          
          stmt.setString(1, user.getNome());
          stmt.setString(2, user.getEmail());
@@ -30,6 +30,7 @@ public class ProfissionalRepository {
          stmt.setString(5, user.getTelefone());
          stmt.setString(6, user.getCidade());
          stmt.setString(7, user.getEstado());
+         stmt.setDouble(8, user.getValor_hora());
          
          int linhasAfetadas = stmt.executeUpdate();
          if(linhasAfetadas == 0){
@@ -63,6 +64,7 @@ public class ProfissionalRepository {
                 user.setTelefone(rs.getString("telefone"));
                 user.setCidade(rs.getString("cidade"));
                 user.setEstado(rs.getString("estado"));
+                user.setValor_hora(rs.getDouble("valor_hora"));
                 
             }
             
