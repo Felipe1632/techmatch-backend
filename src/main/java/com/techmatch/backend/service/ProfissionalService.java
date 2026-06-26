@@ -4,7 +4,9 @@
  */
 package com.techmatch.backend.service;
 
+import com.techmatch.backend.model.EspecialidadeProfissionalDTO;
 import com.techmatch.backend.model.ProfissionalDTO;
+import com.techmatch.backend.model.ProfissionalRequest;
 import com.techmatch.backend.model.UserRequestDTO;
 import com.techmatch.backend.repository.ProfissionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,28 +27,28 @@ public class ProfissionalService {
     @Autowired
     private TokenService tokenservice;
     
-        public void register(ProfissionalDTO user) {
+        public void register(ProfissionalRequest userRequest) {
         String mensagem = "";
-        if(user.getNome().equals("")) {
+        if(userRequest.getNome().equals("")) {
             mensagem = "Nome não preenchido";
-        } else if (user.getEmail().equals("")){
+        } else if (userRequest.getEmail().equals("")){
             mensagem = "Email não preenchido";
-        } else if (user.getSenha().equals("")){
+        } else if (userRequest.getSenha().equals("")){
             mensagem = "Senha não preenchida";
-        } else if (user.getCpf().equals("")){
+        } else if (userRequest.getCpf().equals("")){
             mensagem = "CPF não preenchido";
-        } else if (user.getTelefone().equals("")){
+        } else if (userRequest.getTelefone().equals("")){
             mensagem = "Telefone não preenchido";
-        } else if (user.getCidade().equals("")){
+        } else if (userRequest.getCidade().equals("")){
             mensagem = "Cidade não preenchida";
-        } else if (user.getEstado().equals("")){
+        } else if (userRequest.getEstado().equals("")){
             mensagem = "Estado não preenchido";
         }
       
         if(!mensagem.equals("")) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
-        }
-        repository.register(user);
+                }
+        repository.register(userRequest);
     }
         public String logar(UserRequestDTO user){
         String mensagem = "";

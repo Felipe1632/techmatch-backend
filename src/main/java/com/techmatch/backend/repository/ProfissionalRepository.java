@@ -4,7 +4,9 @@
  */
 package com.techmatch.backend.repository;
 
+import com.techmatch.backend.model.EspecialidadeProfissionalDTO;
 import com.techmatch.backend.model.ProfissionalDTO;
+import com.techmatch.backend.model.ProfissionalRequest;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ProfissionalRepository {
-        public void register(ProfissionalDTO user){
+        public void register(ProfissionalRequest user){
       try{
          Connection conn = Conexao.conectar();
          PreparedStatement stmt = null;
@@ -36,6 +38,7 @@ public class ProfissionalRepository {
          if(linhasAfetadas == 0){
              throw new SQLException("Falha na atualização - Nenhuma linha foi alterada.");
          }
+         
       }catch(SQLException e){
           e.printStackTrace();
       }    
@@ -59,7 +62,6 @@ public class ProfissionalRepository {
             if(rs.next()){
                 user.setId(rs.getLong("id"));
                 user.setNome(rs.getString("email"));
-                user.setEmail(rs.getString("senha"));
                 user.setCpf(rs.getString("cpf"));
                 user.setTelefone(rs.getString("telefone"));
                 user.setCidade(rs.getString("cidade"));

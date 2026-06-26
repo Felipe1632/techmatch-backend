@@ -5,6 +5,7 @@
 package com.techmatch.backend.controller;
 
 import com.techmatch.backend.model.ProfissionalDTO;
+import com.techmatch.backend.model.ProfissionalRequest;
 import com.techmatch.backend.model.UserRequestDTO;
 import com.techmatch.backend.service.ProfissionalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,8 @@ public class ProfissionalController {
     private ProfissionalService service;
     
     @PostMapping("/registrar")
-    public String registrar(@RequestBody ProfissionalDTO user) { 
-          service.register(user);
+    public String registrar(@RequestBody ProfissionalRequest userRequest) { 
+          service.register(userRequest);
           return "Cadastro Feito com sucesso!";      
     }
     
