@@ -19,7 +19,7 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public class ProfissionalRepository {
-        public void register(ProfissionalRequest user){
+        public String register(ProfissionalRequest user){
       try{
          Connection conn = Conexao.conectar();
          PreparedStatement stmt = null;
@@ -41,7 +41,9 @@ public class ProfissionalRepository {
          
       }catch(SQLException e){
           e.printStackTrace();
-      }    
+      }  
+      
+      return "Cadastro do profissional feito com sucesso.";
    }
     
     public ProfissionalDTO logar(String email, String senha){

@@ -27,7 +27,7 @@ public class ProfissionalService {
     @Autowired
     private TokenService tokenservice;
     
-        public void register(ProfissionalRequest userRequest) {
+        public String register(ProfissionalRequest userRequest) {
         String mensagem = "";
         if(userRequest.getNome().equals("")) {
             mensagem = "Nome não preenchido";
@@ -48,7 +48,7 @@ public class ProfissionalService {
         if(!mensagem.equals("")) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
                 }
-        repository.register(userRequest);
+        return repository.register(userRequest);
     }
         public String logar(UserRequestDTO user){
         String mensagem = "";
@@ -61,7 +61,7 @@ public class ProfissionalService {
         if(!mensagem.equals("")){
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
         }
-        ProfissionalDTO dadosLogado = repository.logar(user.getEmail(), user.getSenha());
-            return tokenservice.gerarToken(dadosLogado);
+        //ProfissionalDTO dadosLogado = repository.logar(user.getEmail(), user.getSenha());
+            return tokenservice.gerarToken(user.getEmail(), user.getSenha());
         }
 }

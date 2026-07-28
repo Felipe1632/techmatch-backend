@@ -18,6 +18,7 @@ public class ProfissionalDTO {
     public String cidade;
     public String estado;
     public Double valor_hora;
+    
 
     public ProfissionalDTO() {
     }

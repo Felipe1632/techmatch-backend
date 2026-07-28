@@ -26,8 +26,7 @@ public class ProfissionalController {
     
     @PostMapping("/registrar")
     public String registrar(@RequestBody ProfissionalRequest userRequest) { 
-          service.register(userRequest);
-          return "Cadastro Feito com sucesso!";      
+          return service.register(userRequest);
     }
     
     @PostMapping("/logar")

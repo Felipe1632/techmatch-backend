@@ -37,32 +37,20 @@ public class TokenService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
     
-    public String gerarToken(ProfissionalDTO user) {
+    public String gerarToken(String email, String senha) {
        if(
-           (user.getId() == null || user.getId() == 0L)  ||
-            user.getNome().equals("") ||
-            user.getEmail().equals("") ||
-            user.getCpf() == null ||
-            user.getCpf().equals("") ||
-            user.getTelefone() == null || 
-            user.getTelefone().equals("") ||
-            user.getCidade() == null || 
-            user.getCidade().equals("") ||
-            user.getEstado() == null || 
-            user.getEstado().equals("")
+           (
+            email.equals("") || 
+               senha.equals(""))
          ){
            throw new ResponseStatusException(HttpStatusCode.valueOf(400),
            "Um ou mais campos faltantes");
        }
+        System.out.println("Email bucetao:" + email);
        return Jwts.builder()
-               .subject(user.getNome())
-               .claim("id", user.getId())
-               .claim("nome", user.getNome())
-               .claim("email", user.getEmail())
-               .claim("cpf", user.getCpf())
-               .claim("telefone", user.getTelefone())
-               .claim("cidade", user.getCidade())
-               .claim("estado", user.getEstado())
+               .subject(email)
+               .claim("email", email)
+               .claim("senha", senha)
                .issuedAt(new Date())
                .expiration(new Date(System.currentTimeMillis() + 3000000))
                .signWith(this.getKeySign())
@@ -76,13 +64,7 @@ public class TokenService {
                 .getPayload();
         
         ProfissionalDTO user = new ProfissionalDTO();
-        user.setId(claims.get("id", Long.class));
-        user.setNome(claims.get("nome", String.class));
         user.setEmail(claims.get("email", String.class));
-        user.setCpf(claims.get("cpf", String.class));
-        user.setTelefone(claims.get("telefone", String.class));
-        user.setCidade(claims.get("cidade", String.class));
-        user.setEstado(claims.get("estado", String.class));
         return user;
     }
     

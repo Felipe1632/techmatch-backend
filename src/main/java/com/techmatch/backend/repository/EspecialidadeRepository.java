@@ -5,6 +5,8 @@
 package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.EspecialidadeProfissionalDTO;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import org.springframework.stereotype.Repository;
@@ -16,10 +18,22 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EspecialidadeRepository {
     
-    public void salvarEspecialidades(Long profissionalId, List<EspecialidadeProfissionalDTO> especialidades){
-        try{
+    public void salvarEspecialidades(Long profissionalId, List<EspecialidadeProfissionalDTO> especialidades) {
+        
+        String sql = "insert into profissional_especialidade (profissional_id, especialidade_id, nivel, anos_experiencia) values (?, ?, ?, ?)";
+        
+        try (Connection conn = Conexao.conectar();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
             
-        }catch(SQLException e){
+            for (EspecialidadeProfissionalDTO esp : especialidades) {
+                stmt.setLong(1, profissionalId);
+                stmt.setLong(2, esp.especialidade_id);
+                stmt.setString(3, esp.nivel);
+                stmt.setInt(4, esp.anos_experiencia);
+                stmt.executeUpdate();
+            }
+            
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
