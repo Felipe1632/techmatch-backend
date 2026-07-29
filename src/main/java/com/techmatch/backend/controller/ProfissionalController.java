@@ -4,6 +4,8 @@
  */
 package com.techmatch.backend.controller;
 
+import com.techmatch.backend.model.EspecialidadeProfissionalDTO;
+import com.techmatch.backend.model.ProfissionalConfiguracaoDTO;
 import com.techmatch.backend.model.ProfissionalDTO;
 import com.techmatch.backend.model.ProfissionalRequest;
 import com.techmatch.backend.model.UserRequestDTO;
@@ -23,14 +25,27 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProfissionalController {
     @Autowired
     private ProfissionalService service;
+   
     
     @PostMapping("/registrar")
     public String registrar(@RequestBody ProfissionalRequest userRequest) { 
           return service.register(userRequest);
     }
     
+    @PostMapping("/registrar/configuracao")
+    public String salvarConfiguracao(@RequestBody ProfissionalConfiguracaoDTO config){
+        return service.salvarConfiguracao(config);
+    }
+    
+    @PostMapping("/registrar/especialidades")
+    public String salvarEspecialidade(@RequestBody EspecialidadeProfissionalDTO especialidades){
+        return service.salvarEspecialidades(especialidades);
+    }
+    
     @PostMapping("/logar")
     public String login (@RequestBody UserRequestDTO user){
         return service.logar(user);        
-    } 
+    }
+    
+    
 }

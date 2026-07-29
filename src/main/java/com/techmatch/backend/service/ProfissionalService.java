@@ -43,13 +43,13 @@ public class ProfissionalService {
             mensagem = "Cidade não preenchida";
         } else if (userRequest.getEstado().equals("")){
             mensagem = "Estado não preenchido";
-        }
-      
+        }           
         if(!mensagem.equals("")) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
                 }
         return repository.register(userRequest);
     }
+      
         public String logar(UserRequestDTO user){
         String mensagem = "";
         if(user.getEmail().equals("")){
@@ -64,4 +64,7 @@ public class ProfissionalService {
         //ProfissionalDTO dadosLogado = repository.logar(user.getEmail(), user.getSenha());
             return tokenservice.gerarToken(user.getEmail(), user.getSenha());
         }
+        
+        
+   
 }

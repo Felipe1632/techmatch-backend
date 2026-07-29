@@ -4,6 +4,7 @@
  */
 package com.techmatch.backend.model;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,11 +21,13 @@ public class ProfissionalRequest {
     public String cidade;
     public String estado;
     public Double valor_hora;
-
+    private int raio_atendimento_km;
+    private List<EspecialidadeProfissionalDTO> especialidades;
+    
     public ProfissionalRequest() {
     }
 
-    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora) {
+    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora, int raioAtendimentoKm, List<EspecialidadeProfissionalDTO> especialidades) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -33,6 +36,8 @@ public class ProfissionalRequest {
         this.cidade = cidade;
         this.estado = estado;
         this.valor_hora = valor_hora;
+        this.raio_atendimento_km = raioAtendimentoKm;
+        this.especialidades = especialidades;
     }
 
     public String getNome() {
@@ -99,5 +104,20 @@ public class ProfissionalRequest {
         this.valor_hora = valor_hora;
     }
 
-    
+    public int getRaioAtendimentoKm() {
+        return raio_atendimento_km;
+    }
+
+    public void setRaioAtendimentoKm(int raioAtendimentoKm) {
+        this.raio_atendimento_km = raioAtendimentoKm;
+    }
+
+    public List<EspecialidadeProfissionalDTO> getEspecialidades() {
+        return especialidades;
+    }
+
+    public void setEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
+        this.especialidades = especialidades;
+    }
+
 }

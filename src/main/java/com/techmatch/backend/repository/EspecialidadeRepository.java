@@ -18,7 +18,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class EspecialidadeRepository {
     
-    public void salvarEspecialidades(Long profissionalId, List<EspecialidadeProfissionalDTO> especialidades) {
+    public void salvarEspecialidades(Long profissional_id, List<EspecialidadeProfissionalDTO> especialidades) {
         
         String sql = "insert into profissional_especialidade (profissional_id, especialidade_id, nivel, anos_experiencia) values (?, ?, ?, ?)";
         
@@ -26,7 +26,7 @@ public class EspecialidadeRepository {
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             for (EspecialidadeProfissionalDTO esp : especialidades) {
-                stmt.setLong(1, profissionalId);
+                stmt.setLong(1, profissional_id);
                 stmt.setLong(2, esp.especialidade_id);
                 stmt.setString(3, esp.nivel);
                 stmt.setInt(4, esp.anos_experiencia);

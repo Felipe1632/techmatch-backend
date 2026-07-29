@@ -23,6 +23,19 @@ public class ProfissionalDTO {
     public ProfissionalDTO() {
     }
 
+    public ProfissionalDTO(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora) {
+        this.nome = nome;
+        this.email = email;
+        this.senha = senha;
+        this.cpf = cpf;
+        this.telefone = telefone;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.valor_hora = valor_hora;
+    }
+    
+    
+
 
     public ProfissionalDTO(Long id, String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora) {
         this.id = id;
