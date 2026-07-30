@@ -1,19 +1,18 @@
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
 package com.techmatch.backend.repository;
 
-import com.techmatch.backend.model.Profissional;
+import com.techmatch.backend.model.Avaliacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 /**
  *
- * @author Usuario
+ * @author Aluno
  */
 @Repository
-public interface ProfissionalRepository extends JpaRepository<Profissional, Long>{
-
+public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long>{
+    
 }
-

@@ -22,12 +22,12 @@ public class ProfissionalRequest {
     public String estado;
     public Double valor_hora;
     private int raio_atendimento_km;
-    private List<EspecialidadeProfissionalDTO> especialidades;
+    private List<EspecialidadeProfissional> especialidades;
     
     public ProfissionalRequest() {
     }
 
-    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora, int raioAtendimentoKm, List<EspecialidadeProfissionalDTO> especialidades) {
+    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora, int raioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -112,11 +112,11 @@ public class ProfissionalRequest {
         this.raio_atendimento_km = raioAtendimentoKm;
     }
 
-    public List<EspecialidadeProfissionalDTO> getEspecialidades() {
+    public List<EspecialidadeProfissional> getEspecialidades() {
         return especialidades;
     }
 
-    public void setEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
+    public void setEspecialidades(List<EspecialidadeProfissional> especialidades) {
         this.especialidades = especialidades;
     }
 

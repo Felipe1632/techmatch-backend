@@ -4,7 +4,7 @@
  */
 package com.techmatch.backend.service;
 
-import com.techmatch.backend.model.ProfissionalDTO;
+import com.techmatch.backend.model.Profissional;
 import com.techmatch.backend.model.UserRequestDTO;
 import com.techmatch.backend.repository.ProfissionalRepository;
 import io.jsonwebtoken.Claims;
@@ -46,7 +46,7 @@ public class TokenService {
            throw new ResponseStatusException(HttpStatusCode.valueOf(400),
            "Um ou mais campos faltantes");
        }
-        System.out.println("Email bucetao:" + email);
+        System.out.println("Email:" + email);
        return Jwts.builder()
                .subject(email)
                .claim("email", email)
@@ -56,14 +56,14 @@ public class TokenService {
                .signWith(this.getKeySign())
                .compact();
     }
-    public ProfissionalDTO extrairClaim(String token) {
+    public Profissional extrairClaim(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(this.getKeySign())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
         
-        ProfissionalDTO user = new ProfissionalDTO();
+        Profissional user = new Profissional();
         user.setEmail(claims.get("email", String.class));
         return user;
     }

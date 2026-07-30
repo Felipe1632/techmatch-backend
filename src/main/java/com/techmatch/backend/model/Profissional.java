@@ -4,49 +4,58 @@
  */
 package com.techmatch.backend.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 /**
  *
  * @author Usuario
  */
-public class ProfissionalDTO {
-    public Long id;
-    public String nome;
-    public String email;
-    public String senha;
-    public String cpf;
-    public String telefone;
-    public String cidade;
-    public String estado;
-    public Double valor_hora;
+@Entity
+@Table(name = "profissional")
+public class Profissional {
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(nullable = false)
+    private String nome;
+    
+    @Column(nullable = false, unique = true)
+    private String email;
+    
+    @Column(nullable = false)
+    private String senha;
+    
+    @Column(nullable = false, unique = true)
+    private String cpf;
+    
+    @Column(nullable = false)
+    private String telefone;
+    
+    @Column(nullable = false)
+    private String cidade;
+    
+    @Column(nullable = false)
+    private String estado;
+    
+    @Column(nullable = false)
+    private Double valor_hora = 0.0;
+    
+    @Column(nullable = true)
+    private String status;
 
-    public ProfissionalDTO() {
+    public String getTelefone() {
+        return telefone;
     }
 
-    public ProfissionalDTO(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.cpf = cpf;
+    public void setTelefone(String telefone) {
         this.telefone = telefone;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.valor_hora = valor_hora;
-    }
-    
-    
-
-
-    public ProfissionalDTO(Long id, String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.cpf = cpf;
-        this.telefone = telefone;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.valor_hora = valor_hora;
     }
 
     public Long getId() {
@@ -89,14 +98,6 @@ public class ProfissionalDTO {
         this.cpf = cpf;
     }
 
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
     public String getCidade() {
         return cidade;
     }
@@ -112,7 +113,7 @@ public class ProfissionalDTO {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
+
     public Double getValor_hora() {
         return valor_hora;
     }
@@ -120,5 +121,14 @@ public class ProfissionalDTO {
     public void setValor_hora(Double valor_hora) {
         this.valor_hora = valor_hora;
     }
-     
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
+    
 }
