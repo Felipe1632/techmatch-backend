@@ -33,7 +33,7 @@ public class MatchResult {
     @JoinColumn(name = "profissional_id", nullable = false)
     private Profissional profissional;
 
-    @Column(name = "score_total", nullable = false, precision = 5, scale = 2)
+    @Column(name = "score_total", nullable = false)
     private Double scoreTotal;
 
     @Column(name = "status_resposta")

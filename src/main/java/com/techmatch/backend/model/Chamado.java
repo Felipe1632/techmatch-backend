@@ -47,7 +47,7 @@ public class Chamado {
     @Column(nullable = true)
     private String status = "aberto";
 
-    @Column(name = "orcamento_maximo", nullable = false, precision = 10, scale = 2)
+    @Column(name = "orcamento_maximo", nullable = false)
     private Double orcamentoMaximo;
 
     @Column(nullable = false, length = 100)

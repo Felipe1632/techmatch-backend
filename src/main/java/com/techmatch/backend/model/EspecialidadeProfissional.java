@@ -67,13 +67,12 @@ public class EspecialidadeProfissional {
         this.nivel = nivel;
     }
 
-    public String getAnos_esperiencia() {
-        return anos_esperiencia;
+    public int getAnos_experiencia() {
+        return anos_experiencia;
     }
 
-    public void setAnos_esperiencia(String anos_esperiencia) {
-        this.anos_esperiencia = anos_esperiencia;
+    public void setAnos_experiencia(int anos_experiencia) {
+        this.anos_experiencia = anos_experiencia;
     }
-    
-    
+      
 }

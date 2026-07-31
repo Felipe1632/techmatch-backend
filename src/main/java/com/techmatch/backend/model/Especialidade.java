@@ -29,7 +29,7 @@ public class Especialidade {
     @Column(nullable = false)
     private String categoria;
     
-    @Column(nullable = false, precision = 8, scale = 2)
+    @Column(nullable = false)
     private Double valor_hora_minimo;
 
     public Long getId() {

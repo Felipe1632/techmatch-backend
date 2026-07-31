@@ -7,8 +7,8 @@ package com.techmatch.backend.controller;
 import com.techmatch.backend.model.EspecialidadeProfissional;
 import com.techmatch.backend.model.ProfissionalConfiguracao;
 import com.techmatch.backend.model.Profissional;
-import com.techmatch.backend.model.ProfissionalRequest;
-import com.techmatch.backend.model.UserRequestDTO;
+import com.techmatch.backend.dto.ProfissionalRequest;
+import com.techmatch.backend.dto.UserRequestDTO;
 import com.techmatch.backend.service.ProfissionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,15 +32,15 @@ public class ProfissionalController {
           return service.register(userRequest);
     }
     
-    @PostMapping("/registrar/configuracao")
-    public String salvarConfiguracao(@RequestBody ProfissionalConfiguracao config){
-        return service.salvarConfiguracao(config);
-    }
-    
-    @PostMapping("/registrar/especialidades")
-    public String salvarEspecialidade(@RequestBody EspecialidadeProfissional especialidades){
-        return service.salvarEspecialidades(especialidades);
-    }
+//    @PostMapping("/registrar/configuracao")
+//    public String salvarConfiguracao(@RequestBody ProfissionalConfiguracao config){
+//        return service.salvarConfiguracao(config);
+//    }
+//    
+//    @PostMapping("/registrar/especialidades")
+//    public String salvarEspecialidade(@RequestBody EspecialidadeProfissional especialidades){
+//        return service.salvarEspecialidades(especialidades);
+//    }
     
     @PostMapping("/logar")
     public String login (@RequestBody UserRequestDTO user){

@@ -5,7 +5,9 @@
 package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.Profissional;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,6 +16,9 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ProfissionalRepository extends JpaRepository<Profissional, Long>{
+
+    Profissional findByEmailAndSenha(String email, String senha);
+
 
 }
 

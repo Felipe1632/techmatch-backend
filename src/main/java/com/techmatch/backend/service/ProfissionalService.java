@@ -7,8 +7,8 @@ package com.techmatch.backend.service;
 import com.techmatch.backend.model.EspecialidadeProfissional;
 import com.techmatch.backend.model.Profissional;
 import com.techmatch.backend.model.ProfissionalConfiguracao;
-import com.techmatch.backend.model.ProfissionalRequest;
-import com.techmatch.backend.model.UserRequestDTO;
+import com.techmatch.backend.dto.ProfissionalRequest;
+import com.techmatch.backend.dto.UserRequestDTO;
 import com.techmatch.backend.repository.ProfissionalConfiguracaoRepository;
 import com.techmatch.backend.repository.ProfissionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,9 +48,9 @@ public class ProfissionalService {
                 mensagem = "Cidade não preenchida";
             } else if (userRequest.getEstado().equals("")) {
                 mensagem = "Estado não preenchido";
-            } else if (userRequest.getEspecialidades() == null || userRequest.getEspecialidades().isEmpty()) {
-                mensagem = "Informe ao menos uma especialidade";
-            }
+            } //else if (userRequest.getEspecialidades() == null || userRequest.getEspecialidades().isEmpty()) {
+                //mensagem = "Informe ao menos uma especialidade";
+            //}
 
             if (!mensagem.equals("")) {
                 throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
@@ -64,7 +64,7 @@ public class ProfissionalService {
             p.setTelefone(userRequest.getTelefone());
             p.setCidade(userRequest.getCidade());
             p.setEstado(userRequest.getEstado());
-            p.setValor_hora(userRequest.getValor_hora());
+            p.setValorHora(userRequest.valor_hora);
             p.setStatus("pendente");
             Profissional salvo = repository.save(p);
 
@@ -88,10 +88,8 @@ public class ProfissionalService {
         if(!mensagem.equals("")){
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
         }
-        //ProfissionalDTO dadosLogado = repository.logar(user.getEmail(), user.getSenha());
-            return tokenservice.gerarToken(user.getEmail(), user.getSenha());
+        Profissional profissional = repository.findByEmailAndSenha(user.getEmail(), user.getSenha());
+            return tokenservice.gerarToken(profissional.getId(),user.getEmail(), user.getSenha());
         }
-        
-        
-   
+          
 }

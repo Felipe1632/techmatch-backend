@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.math.BigDecimal;
 
 /**
  *
@@ -44,11 +45,11 @@ public class Profissional {
     @Column(nullable = false)
     private String estado;
     
-    @Column(nullable = false)
-    private Double valor_hora = 0.0;
+    @Column(name = "valor_hora",nullable = false)
+    private BigDecimal valorHora;
     
     @Column(nullable = true)
-    private String status;
+    private String status = "pendente";
 
     public String getTelefone() {
         return telefone;
@@ -114,14 +115,15 @@ public class Profissional {
         this.estado = estado;
     }
 
-    public Double getValor_hora() {
-        return valor_hora;
+    public BigDecimal getValorHora() {
+        return valorHora;
     }
 
-    public void setValor_hora(Double valor_hora) {
-        this.valor_hora = valor_hora;
+    public void setValorHora(BigDecimal valorHora) {
+        this.valorHora = valorHora;
     }
 
+ 
     public String getStatus() {
         return status;
     }

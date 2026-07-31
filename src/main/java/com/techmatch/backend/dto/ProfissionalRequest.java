@@ -2,8 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.techmatch.backend.model;
+package com.techmatch.backend.dto;
 
+import com.techmatch.backend.model.EspecialidadeProfissional;
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -20,14 +22,14 @@ public class ProfissionalRequest {
     public String telefone;
     public String cidade;
     public String estado;
-    public Double valor_hora;
+    public BigDecimal valor_hora;
     private int raio_atendimento_km;
     private List<EspecialidadeProfissional> especialidades;
     
     public ProfissionalRequest() {
     }
 
-    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, Double valor_hora, int raioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
+    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, BigDecimal valor_hora, int raioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -96,11 +98,11 @@ public class ProfissionalRequest {
         this.estado = estado;
     }
 
-    public Double getValor_hora() {
+    public BigDecimal getValor_hora() {
         return valor_hora;
     }
 
-    public void setValor_hora(Double valor_hora) {
+    public void setValor_hora(BigDecimal valor_hora) {
         this.valor_hora = valor_hora;
     }
 

@@ -33,7 +33,7 @@ public class ProfissionalConfiguracao {
     @Column(name = "raio_atendimento_km", nullable = false)
     private Integer raioAtendimentoKm = 20;
 
-    @Column(nullable = false, precision = 5, scale = 2)
+    @Column(nullable = false)
     private BigDecimal score = new BigDecimal("100.00");
 
     @Column(nullable = false)
