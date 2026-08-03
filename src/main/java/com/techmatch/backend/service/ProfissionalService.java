@@ -4,13 +4,19 @@
  */
 package com.techmatch.backend.service;
 
+import com.techmatch.backend.dto.EspecialidadeProfissionalDTO;
 import com.techmatch.backend.model.EspecialidadeProfissional;
 import com.techmatch.backend.model.Profissional;
 import com.techmatch.backend.model.ProfissionalConfiguracao;
 import com.techmatch.backend.dto.ProfissionalRequest;
 import com.techmatch.backend.dto.UserRequestDTO;
+import com.techmatch.backend.model.Especialidade;
+import com.techmatch.backend.repository.EspecialidadeProfissionalRepository;
+import com.techmatch.backend.repository.EspecialidadeRepository;
 import com.techmatch.backend.repository.ProfissionalConfiguracaoRepository;
 import com.techmatch.backend.repository.ProfissionalRepository;
+import com.techmatch.backend.service.TokenService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -28,6 +34,12 @@ public class ProfissionalService {
     
     @Autowired
     private ProfissionalConfiguracaoRepository configRepository;
+    
+    @Autowired
+    private EspecialidadeRepository especialidadeRepository;
+
+    @Autowired
+    private EspecialidadeProfissionalRepository espProfRepository;
     
     @Autowired
     private TokenService tokenservice;
@@ -75,8 +87,26 @@ public class ProfissionalService {
             configRepository.save(config);
 
             return "Cadastro do profissional feito com sucesso.";
+            
         }
-      
+                public String salvarEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
+        for (EspecialidadeProfissionalDTO dto : especialidades) {
+            Profissional profissional = repository.findById(dto.getProfissional_id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404), "Profissional não encontrado"));
+
+            Especialidade esp = especialidadeRepository.findById(dto.getEspecialidade_id())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(400), "Especialidade não encontrada"));
+
+            EspecialidadeProfissional ep = new EspecialidadeProfissional();
+            ep.setProfissional(profissional);
+            ep.setEspecialidade(esp);
+            ep.setNivel(dto.getNivel());
+            ep.setAnos_experiencia(dto.getAnos_experiencia());
+            espProfRepository.save(ep);
+    }
+                return "Especialidades salvas com sucesso.";
+                }
+     
         public String logar(UserRequestDTO user){
         String mensagem = "";
         if(user.getEmail().equals("")){
@@ -90,6 +120,5 @@ public class ProfissionalService {
         }
         Profissional profissional = repository.findByEmailAndSenha(user.getEmail(), user.getSenha());
             return tokenservice.gerarToken(profissional.getId(),user.getEmail(), user.getSenha());
-        }
-          
+        }          
 }
