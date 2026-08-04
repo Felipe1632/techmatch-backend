@@ -9,6 +9,7 @@ package com.techmatch.backend.dto;
  * @author Aluno
  */
 public class EmpresaRequest {
+    private String nome;
     private String email;
     private String senha;
     private String cnpj;
@@ -19,13 +20,12 @@ public class EmpresaRequest {
     public EmpresaRequest() {
     }
 
-    public EmpresaRequest(String email, String senha, String cnpj, String telefone, String cidade, String estado) {
-        this.email = email;
-        this.senha = senha;
-        this.cnpj = cnpj;
-        this.telefone = telefone;
-        this.cidade = cidade;
-        this.estado = estado;
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public String getEmail() {
@@ -75,6 +75,6 @@ public class EmpresaRequest {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
+
+       
 }
