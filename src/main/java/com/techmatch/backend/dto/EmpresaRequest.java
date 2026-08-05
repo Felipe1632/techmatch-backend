@@ -16,6 +16,7 @@ public class EmpresaRequest {
     private String telefone;
     private String cidade;
     private String estado;
+    private String status;
 
     public EmpresaRequest() {
     }
@@ -76,5 +77,13 @@ public class EmpresaRequest {
         this.estado = estado;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+    
        
 }

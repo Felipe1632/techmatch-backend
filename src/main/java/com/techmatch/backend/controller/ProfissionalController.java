@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/techmatch")
+@RequestMapping("/techmatch/profissionais")
 public class ProfissionalController {
 
     @Autowired
@@ -27,7 +27,7 @@ public class ProfissionalController {
         return service.register(userRequest);
     }
 
-    @PostMapping("/logar")
+    @PostMapping("/login")
     public String login(@RequestBody UserRequestDTO user) {
         return service.logar(user);
     }

@@ -1,30 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.techmatch.backend.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "profissional_especialidade")
+@IdClass(EspecialidadeProfissionalId.class) // Avisa sobre a chave composta
 public class EspecialidadeProfissional {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
+    @Id // Marca como parte da chave primária
     @ManyToOne
     @JoinColumn(name = "profissional_id", nullable = false)
     private Profissional profissional;
     
+    @Id // Marca como parte da chave primária
     @ManyToOne
     @JoinColumn(name = "especialidade_id", nullable = false)
     private Especialidade especialidade;
@@ -35,14 +29,7 @@ public class EspecialidadeProfissional {
     @Column(nullable = false)
     private int anos_experiencia = 0;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    
     public Profissional getProfissional() {
         return profissional;
     }
@@ -74,5 +61,4 @@ public class EspecialidadeProfissional {
     public void setAnos_experiencia(int anos_experiencia) {
         this.anos_experiencia = anos_experiencia;
     }
-      
 }

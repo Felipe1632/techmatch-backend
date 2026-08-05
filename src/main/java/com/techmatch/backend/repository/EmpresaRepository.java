@@ -14,5 +14,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>{
-    
+    Empresa findByEmailAndSenha(String email, String senha);
 }

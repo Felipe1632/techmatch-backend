@@ -22,14 +22,14 @@ public class ProfissionalRequest {
     public String telefone;
     public String cidade;
     public String estado;
-    public BigDecimal valor_hora;
+    public BigDecimal valorHora;
     private int raio_atendimento_km;
     private List<EspecialidadeProfissional> especialidades;
     
     public ProfissionalRequest() {
     }
 
-    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, BigDecimal valor_hora, int raioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
+    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, BigDecimal valorHora, int raioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -37,7 +37,7 @@ public class ProfissionalRequest {
         this.telefone = telefone;
         this.cidade = cidade;
         this.estado = estado;
-        this.valor_hora = valor_hora;
+        this.valorHora = valorHora;
         this.raio_atendimento_km = raioAtendimentoKm;
         this.especialidades = especialidades;
     }
@@ -99,11 +99,11 @@ public class ProfissionalRequest {
     }
 
     public BigDecimal getValor_hora() {
-        return valor_hora;
+        return valorHora;
     }
 
     public void setValor_hora(BigDecimal valor_hora) {
-        this.valor_hora = valor_hora;
+        this.valorHora = valorHora;
     }
 
     public int getRaioAtendimentoKm() {

@@ -4,6 +4,12 @@
  */
 package com.techmatch.backend.controller;
 
+import com.techmatch.backend.dto.EmpresaRequest;
+import com.techmatch.backend.dto.UserRequestDTO;
+import com.techmatch.backend.service.EmpresaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,9 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Aluno
  */
 @RestController
-@RequestMapping("/techmatch")
+@RequestMapping("/techmatch/empresas")
 public class EmpresaController {
     
+    @Autowired
+    private EmpresaService service;
     
+    @PostMapping("/registrar")
+    public String register(@RequestBody EmpresaRequest empresa){
+        return service.register(empresa);
+    }
+    
+    @PostMapping("/login")
+    public String login(@RequestBody UserRequestDTO empresa){
+        return service.login(empresa);
+    }
     
 }

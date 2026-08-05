@@ -76,7 +76,7 @@ public class ProfissionalService {
             p.setTelefone(userRequest.getTelefone());
             p.setCidade(userRequest.getCidade());
             p.setEstado(userRequest.getEstado());
-            p.setValorHora(userRequest.valor_hora);
+            p.setValorHora(userRequest.getValor_hora());
             p.setStatus("pendente");
             Profissional salvo = repository.save(p);
 

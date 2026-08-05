@@ -47,6 +47,14 @@ public class Empresa {
     @Column(nullable = true)
     private String status;
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
     public Long getId() {
         return id;
     }
