@@ -98,11 +98,11 @@ public class ProfissionalRequest {
         this.estado = estado;
     }
 
-    public BigDecimal getValor_hora() {
+    public BigDecimal getValorHora() {
         return valorHora;
     }
 
-    public void setValor_hora(BigDecimal valor_hora) {
+    public void setValorHora(BigDecimal valorHora) {
         this.valorHora = valorHora;
     }
 
