@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
  */
 public class ProfissionalRequest {
     //profissional
+    public Long id;
+    
     public String nome;
     public String email;
     public String senha;
@@ -23,13 +25,14 @@ public class ProfissionalRequest {
     public String cidade;
     public String estado;
     public BigDecimal valorHora;
-    private int raio_atendimento_km;
+    private Integer RaioAtendimentoKm;
     private List<EspecialidadeProfissional> especialidades;
     
     public ProfissionalRequest() {
     }
 
-    public ProfissionalRequest(String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, BigDecimal valorHora, int raioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
+    public ProfissionalRequest(Long id, String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, BigDecimal valorHora, Integer RaioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
+        this.id = id;
         this.nome = nome;
         this.email = email;
         this.senha = senha;
@@ -38,8 +41,16 @@ public class ProfissionalRequest {
         this.cidade = cidade;
         this.estado = estado;
         this.valorHora = valorHora;
-        this.raio_atendimento_km = raioAtendimentoKm;
+        this.RaioAtendimentoKm = RaioAtendimentoKm;
         this.especialidades = especialidades;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -106,12 +117,12 @@ public class ProfissionalRequest {
         this.valorHora = valorHora;
     }
 
-    public int getRaioAtendimentoKm() {
-        return raio_atendimento_km;
+    public Integer getRaioAtendimentoKm() {
+        return RaioAtendimentoKm;
     }
 
-    public void setRaioAtendimentoKm(int raioAtendimentoKm) {
-        this.raio_atendimento_km = raioAtendimentoKm;
+    public void setRaioAtendimentoKm(Integer RaioAtendimentoKm) {
+        this.RaioAtendimentoKm = RaioAtendimentoKm;
     }
 
     public List<EspecialidadeProfissional> getEspecialidades() {
@@ -122,4 +133,5 @@ public class ProfissionalRequest {
         this.especialidades = especialidades;
     }
 
+ 
 }

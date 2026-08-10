@@ -120,5 +120,37 @@ public class ProfissionalService {
         }
         Profissional profissional = repository.findByEmailAndSenha(user.getEmail(), user.getSenha());
             return tokenservice.gerarToken(profissional.getId(),user.getEmail(), user.getSenha());
-        }          
+        }
+        
+            public ProfissionalRequest buscarPorEmail(String email) {
+            Profissional profissional = repository.findByEmail(email)
+                    .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
+
+            ProfissionalConfiguracao config = configRepository.findByProfissional(profissional)
+                    .orElse(null);
+
+
+            List<EspecialidadeProfissional> especialidadesDoProfissional = espProfRepository.findByProfissional(profissional);
+
+            ProfissionalRequest dto = new ProfissionalRequest();
+
+            dto.setId(profissional.getId());
+
+            dto.setNome(profissional.getNome());
+            dto.setEmail(profissional.getEmail());
+            dto.setTelefone(profissional.getTelefone());
+            dto.setValorHora(profissional.getValorHora());
+
+            dto.setCidade(profissional.getCidade());
+            dto.setEstado(profissional.getEstado());
+
+
+            dto.setEspecialidades(especialidadesDoProfissional);
+
+            if (config != null) {
+                dto.setRaioAtendimentoKm(config.getRaioAtendimentoKm());
+            }
+
+            return dto;
+        }
 }

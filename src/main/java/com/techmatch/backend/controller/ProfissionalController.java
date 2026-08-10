@@ -10,7 +10,8 @@ import com.techmatch.backend.dto.UserRequestDTO;
 import com.techmatch.backend.service.ProfissionalService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,8 +36,13 @@ public class ProfissionalController {
         return service.logar(user);
     }
 
-    @PostMapping("/registrar/especialidades")
-    public String registrarEspecialidades(@RequestParam List<EspecialidadeProfissionalDTO> especialidades) {
-        return service.salvarEspecialidades(especialidades);
+    @PostMapping("/especialidades")
+    public ResponseEntity<String> salvarEspecialidades(@RequestBody List<EspecialidadeProfissionalDTO> especialidades) {
+        String resposta = service.salvarEspecialidades(especialidades);
+        return ResponseEntity.ok(resposta);
+    }
+    @GetMapping("/buscar")
+    public ProfissionalRequest buscarPorEmail(@RequestParam String email) {
+        return service.buscarPorEmail(email);
     }
 }
