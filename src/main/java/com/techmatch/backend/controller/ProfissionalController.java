@@ -31,7 +31,7 @@ public class ProfissionalController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam UserRequestDTO user) {
+    public String login(@RequestBody UserRequestDTO user) {
         return service.logar(user);
     }
 
