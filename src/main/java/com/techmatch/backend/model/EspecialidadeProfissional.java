@@ -1,35 +1,31 @@
 package com.techmatch.backend.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "profissional_especialidade")
-@IdClass(EspecialidadeProfissionalId.class) // Avisa sobre a chave composta
+@IdClass(EspecialidadeProfissionalId.class)
 public class EspecialidadeProfissional {
 
-    @Id // Marca como parte da chave primária
-    @ManyToOne
-    @JoinColumn(name = "profissional_id", nullable = false)
-    private Profissional profissional;
-    
-    @Id // Marca como parte da chave primária
-    @ManyToOne
-    @JoinColumn(name = "especialidade_id", nullable = false)
-    private Especialidade especialidade;
-    
-    @Column(nullable = false)
-    private String nivel;
-    
-    @Column(nullable = false)
-    private int anos_experiencia = 0;
+    // ATENÇÃO: Não coloque 'private Long id;' aqui!
 
-    
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "profissional_id")
+    private Profissional profissional;
+
+    @Id
+    @ManyToOne
+    @JoinColumn(name = "especialidade_id")
+    private Especialidade especialidade;
+
+    private String nivel;
+
+    @Column(name = "anos_experiencia")
+    private Integer anos_experiencia;
+
+    public EspecialidadeProfissional() {}
+
     public Profissional getProfissional() {
         return profissional;
     }
@@ -54,11 +50,11 @@ public class EspecialidadeProfissional {
         this.nivel = nivel;
     }
 
-    public int getAnos_experiencia() {
+    public Integer getAnos_experiencia() {
         return anos_experiencia;
     }
 
-    public void setAnos_experiencia(int anos_experiencia) {
+    public void setAnos_experiencia(Integer anos_experiencia) {
         this.anos_experiencia = anos_experiencia;
     }
 }

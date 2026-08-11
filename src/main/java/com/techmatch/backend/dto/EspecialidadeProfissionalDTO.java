@@ -1,43 +1,48 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.techmatch.backend.dto;
 
-/**
- *
- * @author Aluno
- */
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class EspecialidadeProfissionalDTO {
-    public Long profissional_id;
-    public Long especialidade_id;
-    public String nivel;
-    public int anos_experiencia;
+
+    @JsonProperty("profissional_id")
+    @JsonAlias({"profissionalId"})
+    private Long profissionalId;
+
+    @JsonProperty("especialidade_id")
+    @JsonAlias({"especialidadeId"})
+    private Long especialidadeId;
+
+    private String nivel;
+
+    @JsonProperty("anos_experiencia")
+    @JsonAlias({"anosExperiencia"})
+    private Integer anosExperiencia;
 
     public EspecialidadeProfissionalDTO() {
     }
 
-    public EspecialidadeProfissionalDTO(Long profissional_id, Long especialidade_id, String nivel, int anos_experiencia) {
-        this.profissional_id = profissional_id;
-        this.especialidade_id = especialidade_id;
+    public EspecialidadeProfissionalDTO(Long profissionalId, Long especialidadeId, String nivel, Integer anosExperiencia) {
+        this.profissionalId = profissionalId;
+        this.especialidadeId = especialidadeId;
         this.nivel = nivel;
-        this.anos_experiencia = anos_experiencia;
+        this.anosExperiencia = anosExperiencia;
     }
 
-    public Long getProfissional_id() {
-        return profissional_id;
+    public Long getProfissionalId() {
+        return profissionalId;
     }
 
-    public void setProfissional_id(Long profissional_id) {
-        this.profissional_id = profissional_id;
+    public void setProfissionalId(Long profissionalId) {
+        this.profissionalId = profissionalId;
     }
 
-    public Long getEspecialidade_id() {
-        return especialidade_id;
+    public Long getEspecialidadeId() {
+        return especialidadeId;
     }
 
-    public void setEspecialidade_id(Long especialidade_id) {
-        this.especialidade_id = especialidade_id;
+    public void setEspecialidadeId(Long especialidadeId) {
+        this.especialidadeId = especialidadeId;
     }
 
     public String getNivel() {
@@ -48,13 +53,11 @@ public class EspecialidadeProfissionalDTO {
         this.nivel = nivel;
     }
 
-    public int getAnos_experiencia() {
-        return anos_experiencia;
+    public Integer getAnosExperiencia() {
+        return anosExperiencia;
     }
 
-    public void setAnos_experiencia(int anos_experiencia) {
-        this.anos_experiencia = anos_experiencia;
+    public void setAnosExperiencia(Integer anosExperiencia) {
+        this.anosExperiencia = anosExperiencia;
     }
-    
-    
 }

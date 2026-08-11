@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.techmatch.backend.controller;
 
 import com.techmatch.backend.dto.EspecialidadeProfissionalDTO;
@@ -27,7 +23,7 @@ public class ProfissionalController {
 
     @PostMapping("/registrar")
     public String registrar(@RequestBody ProfissionalRequest userRequest) {
-        System.out.println("Nome" + userRequest.getValorHora());
+        System.out.println("Nome: " + userRequest.getValorHora());
         return service.register(userRequest);
     }
 
@@ -37,10 +33,14 @@ public class ProfissionalController {
     }
 
     @PostMapping("/especialidades")
-    public ResponseEntity<String> salvarEspecialidades(@RequestBody List<EspecialidadeProfissionalDTO> especialidades) {
-        String resposta = service.salvarEspecialidades(especialidades);
+    public ResponseEntity<String> salvarEspecialidades(@RequestBody EspecialidadeProfissionalDTO dto) {
+        System.out.println("Profissional ID: " + dto.getProfissionalId());
+        System.out.println("Especialidade ID: " + dto.getEspecialidadeId());
+
+        String resposta = service.salvarEspecialidades(List.of(dto));
         return ResponseEntity.ok(resposta);
     }
+
     @GetMapping("/buscar")
     public ProfissionalRequest buscarPorEmail(@RequestParam String email) {
         return service.buscarPorEmail(email);

@@ -91,18 +91,20 @@ public class ProfissionalService {
         }
                 public String salvarEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
         for (EspecialidadeProfissionalDTO dto : especialidades) {
-            Profissional profissional = repository.findById(dto.getProfissional_id())
+            Profissional profissional = repository.findById(dto.getProfissionalId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404), "Profissional não encontrado"));
 
-            Especialidade esp = especialidadeRepository.findById(dto.getEspecialidade_id())
+            Especialidade esp = especialidadeRepository.findById(dto.getEspecialidadeId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(400), "Especialidade não encontrada"));
 
             EspecialidadeProfissional ep = new EspecialidadeProfissional();
             ep.setProfissional(profissional);
+
             ep.setEspecialidade(esp);
             ep.setNivel(dto.getNivel());
-            ep.setAnos_experiencia(dto.getAnos_experiencia());
-            espProfRepository.save(ep);
+            ep.setAnos_experiencia(dto.getAnosExperiencia());
+            espProfRepository.save(ep);    
+
     }
                 return "Especialidades salvas com sucesso.";
                 }
