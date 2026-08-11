@@ -18,6 +18,7 @@ import com.techmatch.backend.repository.ProfissionalRepository;
 import com.techmatch.backend.service.TokenService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -82,32 +83,49 @@ public class ProfissionalService {
 
             ProfissionalConfiguracao config = new ProfissionalConfiguracao();
             config.setProfissional(salvo);
-            config.setRaioAtendimentoKm(userRequest.getRaioAtendimentoKm());
+            Integer raio = (userRequest.getRaioAtendimentoKm() != null) 
+                               ? userRequest.getRaioAtendimentoKm() 
+                               : 10;
+                config.setRaioAtendimentoKm(raio);
+
+    configRepository.save(config);
 
             configRepository.save(config);
 
             return "Cadastro do profissional feito com sucesso.";
             
         }
-                public String salvarEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
-        for (EspecialidadeProfissionalDTO dto : especialidades) {
-            Profissional profissional = repository.findById(dto.getProfissionalId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404), "Profissional não encontrado"));
-
-            Especialidade esp = especialidadeRepository.findById(dto.getEspecialidadeId())
-                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(400), "Especialidade não encontrada"));
-
-            EspecialidadeProfissional ep = new EspecialidadeProfissional();
-            ep.setProfissional(profissional);
-
-            ep.setEspecialidade(esp);
-            ep.setNivel(dto.getNivel());
-            ep.setAnos_experiencia(dto.getAnosExperiencia());
-            espProfRepository.save(ep);    
-
-    }
-                return "Especialidades salvas com sucesso.";
+        
+            public String salvarEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
+                if (especialidades == null || especialidades.isEmpty()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A lista de especialidades não pode estar vazia.");
                 }
+
+                for (EspecialidadeProfissionalDTO dto : especialidades) {
+                    // Validação para evitar a exceção do Spring Data JPA
+                    if (dto.getProfissionalId() == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID do profissional não foi informado.");
+                    }
+                    if (dto.getEspecialidadeId() == null) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID da especialidade não foi informado.");
+                    }
+
+                    // Buscas tratadas no repositório
+                    Profissional profissional = repository.findById(dto.getProfissionalId())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profissional não encontrado com o ID: " + dto.getProfissionalId()));
+
+                    Especialidade especialidade = especialidadeRepository.findById(dto.getEspecialidadeId())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Especialidade não encontrada com o ID: " + dto.getEspecialidadeId()));
+
+                     // Exemplo de criação/salvamento do relacionamento:
+                     EspecialidadeProfissional relacao = new EspecialidadeProfissional();
+                     relacao.setProfissional(profissional);
+                     relacao.setEspecialidade(especialidade);
+                     espProfRepository.save(relacao);
+                }
+
+                return "Especialidades associadas com sucesso.";
+            }
      
         public String logar(UserRequestDTO user){
         String mensagem = "";
