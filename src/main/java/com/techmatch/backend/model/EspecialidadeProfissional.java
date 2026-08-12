@@ -1,13 +1,12 @@
 package com.techmatch.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "profissional_especialidade")
 @IdClass(EspecialidadeProfissionalId.class)
 public class EspecialidadeProfissional {
-
-    // ATENÇÃO: Não coloque 'private Long id;' aqui!
 
     @Id
     @ManyToOne
@@ -56,5 +55,20 @@ public class EspecialidadeProfissional {
 
     public void setAnos_experiencia(Integer anos_experiencia) {
         this.anos_experiencia = anos_experiencia;
+    }
+
+    @JsonProperty("nomeEspecialidade")
+    public String getNomeEspecialidade() {
+        return (this.especialidade != null) ? this.especialidade.getNome() : null;
+    }
+
+    @JsonProperty("especialidadeId")
+    public Long getEspecialidadeId() {
+        return (this.especialidade != null) ? this.especialidade.getId() : null;
+    }
+
+    @JsonProperty("profissionalId")
+    public Long getProfissionalId() {
+        return (this.profissional != null) ? this.profissional.getId() : null;
     }
 }

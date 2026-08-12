@@ -7,6 +7,7 @@ import com.techmatch.backend.service.ProfissionalService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,5 +45,13 @@ public class ProfissionalController {
     @GetMapping("/buscar")
     public ProfissionalRequest buscarPorEmail(@RequestParam String email) {
         return service.buscarPorEmail(email);
+    }
+       
+    @DeleteMapping("/especialidades/remover")
+    public ResponseEntity<Void> removerEspecialidade(@RequestParam("profissionalId") Long profissionalId, 
+                                                     @RequestParam("especialidadeId") Long especialidadeId) {
+        System.out.println(">>> DEBUG 3: Backend REST recebeu o DELETE do Frontend");
+        service.removerEspecialidade(profissionalId, especialidadeId);
+        return ResponseEntity.ok().build();
     }
 }

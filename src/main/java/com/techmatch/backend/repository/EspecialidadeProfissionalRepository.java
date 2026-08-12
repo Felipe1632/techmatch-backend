@@ -6,6 +6,7 @@ package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.EspecialidadeProfissional;
 import com.techmatch.backend.model.Profissional;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,6 @@ import org.springframework.stereotype.Repository;
 public interface EspecialidadeProfissionalRepository extends JpaRepository<EspecialidadeProfissional, Long>{
     
     List<EspecialidadeProfissional> findByProfissional(Profissional profissional);
+    
+    void deleteByProfissionalIdAndEspecialidadeId(Long profissionalId, Long especialidadeId);
 }

@@ -11,11 +11,13 @@ import com.techmatch.backend.model.ProfissionalConfiguracao;
 import com.techmatch.backend.dto.ProfissionalRequest;
 import com.techmatch.backend.dto.UserRequestDTO;
 import com.techmatch.backend.model.Especialidade;
+import com.techmatch.backend.model.EspecialidadeProfissionalId;
 import com.techmatch.backend.repository.EspecialidadeProfissionalRepository;
 import com.techmatch.backend.repository.EspecialidadeRepository;
 import com.techmatch.backend.repository.ProfissionalConfiguracaoRepository;
 import com.techmatch.backend.repository.ProfissionalRepository;
 import com.techmatch.backend.service.TokenService;
+import jakarta.transaction.Transactional;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,36 +98,37 @@ public class ProfissionalService {
             
         }
         
-            public String salvarEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
-                if (especialidades == null || especialidades.isEmpty()) {
-                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A lista de especialidades não pode estar vazia.");
-                }
+        public String salvarEspecialidades(List<EspecialidadeProfissionalDTO> especialidades) {
+           if (especialidades == null || especialidades.isEmpty()) {
+               throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A lista de especialidades não pode estar vazia.");
+           }
 
-                for (EspecialidadeProfissionalDTO dto : especialidades) {
-                    // Validação para evitar a exceção do Spring Data JPA
-                    if (dto.getProfissionalId() == null) {
-                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID do profissional não foi informado.");
-                    }
-                    if (dto.getEspecialidadeId() == null) {
-                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID da especialidade não foi informado.");
-                    }
+           for (EspecialidadeProfissionalDTO dto : especialidades) {
+               if (dto.getProfissionalId() == null) {
+                   throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID do profissional não foi informado.");
+               }
+               if (dto.getEspecialidadeId() == null) {
+                   throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "O ID da especialidade não foi informado.");
+               }
 
-                    // Buscas tratadas no repositório
-                    Profissional profissional = repository.findById(dto.getProfissionalId())
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profissional não encontrado com o ID: " + dto.getProfissionalId()));
+               Profissional profissional = repository.findById(dto.getProfissionalId())
+                       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profissional não encontrado com o ID: " + dto.getProfissionalId()));
 
-                    Especialidade especialidade = especialidadeRepository.findById(dto.getEspecialidadeId())
-                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Especialidade não encontrada com o ID: " + dto.getEspecialidadeId()));
+               Especialidade especialidade = especialidadeRepository.findById(dto.getEspecialidadeId())
+                       .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Especialidade não encontrada com o ID: " + dto.getEspecialidadeId()));
 
-                     // Exemplo de criação/salvamento do relacionamento:
-                     EspecialidadeProfissional relacao = new EspecialidadeProfissional();
-                     relacao.setProfissional(profissional);
-                     relacao.setEspecialidade(especialidade);
-                     espProfRepository.save(relacao);
-                }
+               EspecialidadeProfissional relacao = new EspecialidadeProfissional();
+               relacao.setProfissional(profissional);
+               relacao.setEspecialidade(especialidade);
 
-                return "Especialidades associadas com sucesso.";
-            }
+               relacao.setNivel(dto.getNivel());
+               relacao.setAnos_experiencia(dto.getAnosExperiencia() != null ? dto.getAnosExperiencia(): 0);
+
+               espProfRepository.save(relacao);
+           }
+
+           return "Especialidades associadas com sucesso.";
+       }
      
         public String logar(UserRequestDTO user){
         String mensagem = "";
@@ -142,35 +145,35 @@ public class ProfissionalService {
             return tokenservice.gerarToken(profissional.getId(),user.getEmail(), user.getSenha());
         }
         
-            public ProfissionalRequest buscarPorEmail(String email) {
+        public ProfissionalRequest buscarPorEmail(String email) {
             Profissional profissional = repository.findByEmail(email)
                     .orElseThrow(() -> new RuntimeException("Profissional não encontrado"));
 
             ProfissionalConfiguracao config = configRepository.findByProfissional(profissional)
                     .orElse(null);
 
-
-            List<EspecialidadeProfissional> especialidadesDoProfissional = espProfRepository.findByProfissional(profissional);
-
             ProfissionalRequest dto = new ProfissionalRequest();
-
             dto.setId(profissional.getId());
-
             dto.setNome(profissional.getNome());
             dto.setEmail(profissional.getEmail());
             dto.setTelefone(profissional.getTelefone());
             dto.setValorHora(profissional.getValorHora());
-
             dto.setCidade(profissional.getCidade());
             dto.setEstado(profissional.getEstado());
 
-
-            dto.setEspecialidades(especialidadesDoProfissional);
+            // Repassa direto sem precisar de conversões manuais:
+            dto.setEspecialidades(espProfRepository.findByProfissional(profissional));
 
             if (config != null) {
                 dto.setRaioAtendimentoKm(config.getRaioAtendimentoKm());
             }
 
             return dto;
+        }
+        
+        @Transactional
+        public void removerEspecialidade(Long profissionalId, Long especialidadeId) {
+                    System.out.println("DEBUG 4");
+            espProfRepository.deleteByProfissionalIdAndEspecialidadeId(profissionalId, especialidadeId);
         }
 }
