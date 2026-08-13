@@ -18,8 +18,8 @@ import org.springframework.stereotype.Repository;
 public interface ProfissionalRepository extends JpaRepository<Profissional, Long>{
 
     Profissional findByEmailAndSenha(String email, String senha);
-
     // O Spring JPA gera automaticamente a query SQL "SELECT * FROM profissional WHERE email = ?"
     Optional<Profissional> findByEmail(String email);
 
+    
 }

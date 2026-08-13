@@ -51,9 +51,9 @@ public class EmpresaService {
     else if(empresa.getEstado().equals("")){
         mensagem = "Estado não preenchido!";
     }
-    else if(empresa.getStatus().equals("")){
-        mensagem = "Status não preenchido";
-    }
+//    else if(empresa.getStatus().equals("")){
+//        mensagem = "Status não preenchido";
+//    }
     
     if (!mensagem.equals("")) {
                 throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
@@ -67,7 +67,7 @@ public class EmpresaService {
     p.setTelefone(empresa.getTelefone());
     p.setCidade(empresa.getCidade());
     p.setEstado(empresa.getEstado());
-    p.setStatus(empresa.getStatus());
+    p.setStatus("pendente");
     
     Empresa salvo = repositoryEmpresa.save(p);
     

@@ -171,9 +171,32 @@ public class ProfissionalService {
             return dto;
         }
         
-        @Transactional
-        public void removerEspecialidade(Long profissionalId, Long especialidadeId) {
-                    System.out.println("DEBUG 4");
-            espProfRepository.deleteByProfissionalIdAndEspecialidadeId(profissionalId, especialidadeId);
+    @Transactional
+    public void removerEspecialidade(Long profissionalId, Long especialidadeId) {       
+        espProfRepository.removerPorProfissionalEEspecialidade(profissionalId, especialidadeId);
+        
         }
+        public String atualizar(Long id, ProfissionalRequest dto) {
+        Profissional profissional = repository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profissional não encontrado."));
+
+        if (dto.getNome() != null && !dto.getNome().isEmpty()) {
+            profissional.setNome(dto.getNome());
+        }
+        if (dto.getTelefone() != null && !dto.getTelefone().isEmpty()) {
+            profissional.setTelefone(dto.getTelefone());
+        }
+        if (dto.getCidade() != null && !dto.getCidade().isEmpty()) {
+            profissional.setCidade(dto.getCidade());
+        }
+        if (dto.getEstado() != null && !dto.getEstado().isEmpty()) {
+            profissional.setEstado(dto.getEstado());
+        }
+        if (dto.getValorHora() != null) {
+            profissional.setValorHora(dto.getValorHora());
+        }
+
+        repository.save(profissional);
+        return "Perfil atualizado com sucesso.";
+    }
 }
