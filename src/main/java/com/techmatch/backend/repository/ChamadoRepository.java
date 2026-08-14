@@ -5,6 +5,7 @@
 package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.Chamado;
+import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface ChamadoRepository extends JpaRepository<Chamado, Long>{
     
+    List<Chamado> findByStatus(String status);
+    List<Chamado> findByEmpresaId(Long empresaId);
 }

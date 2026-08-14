@@ -90,4 +90,19 @@ public class EmpresaService {
         Empresa empresaEncontrada = repositoryEmpresa.findByEmailAndSenha(empresa.getEmail(), empresa.getSenha());
         return tokenservice.gerarToken(empresaEncontrada.getId() ,empresa.getEmail(), empresa.getSenha());
     }
+        public EmpresaRequest buscarPorEmail(String email) {
+        Empresa empresa = repositoryEmpresa.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Empresa não encontrada"));
+
+        EmpresaRequest dto = new EmpresaRequest();
+        dto.setId(empresa.getId());
+        dto.setNome(empresa.getNome());
+        dto.setEmail(empresa.getEmail());
+        dto.setTelefone(empresa.getTelefone());
+        dto.setCidade(empresa.getCidade());
+        dto.setEstado(empresa.getEstado());
+
+        return dto;
+    }
+
 }

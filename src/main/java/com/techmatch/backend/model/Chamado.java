@@ -45,7 +45,7 @@ public class Chamado {
     private String urgencia;
 
     @Column(nullable = true)
-    private String status = "aberto";
+    private String status;
 
     @Column(name = "orcamento_maximo", nullable = false)
     private Double orcamentoMaximo;

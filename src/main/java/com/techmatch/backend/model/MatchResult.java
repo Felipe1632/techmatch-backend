@@ -37,7 +37,7 @@ public class MatchResult {
     private Double scoreTotal;
 
     @Column(name = "status_resposta")
-    private String statusResposta = "pendente";
+    private String statusResposta;
 
     public Long getId() {
         return id;

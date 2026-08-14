@@ -5,6 +5,7 @@
 package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.MatchResult;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,5 +15,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 @Controller
 public interface MatchResultRepository extends JpaRepository<MatchResult, Long>{
-    
+    List<MatchResult> findByChamadoIdOrderByScoreTotalDesc(Long chamadoId);
 }

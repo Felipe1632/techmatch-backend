@@ -5,6 +5,7 @@
 package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.Empresa;
+import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -15,4 +16,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long>{
     Empresa findByEmailAndSenha(String email, String senha);
+    
+    Optional<Empresa> findByEmail(String email);
 }

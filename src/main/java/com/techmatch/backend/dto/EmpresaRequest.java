@@ -9,6 +9,7 @@ package com.techmatch.backend.dto;
  * @author Aluno
  */
 public class EmpresaRequest {
+    private Long id;
     private String nome;
     private String email;
     private String senha;
@@ -83,6 +84,18 @@ public class EmpresaRequest {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public EmpresaRequest(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
        
