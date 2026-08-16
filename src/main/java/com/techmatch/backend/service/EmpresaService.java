@@ -8,10 +8,11 @@ import com.techmatch.backend.dto.EmpresaRequest;
 import com.techmatch.backend.dto.UserRequestDTO;
 import com.techmatch.backend.model.Empresa;
 import com.techmatch.backend.repository.EmpresaRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
@@ -77,18 +78,24 @@ public class EmpresaService {
     
     public String login(UserRequestDTO empresa){
         String mensagem = "";
-        if(empresa.getEmail().equals("")){
+        if (empresa.getEmail().equals("")) {
             mensagem = "Email não preenchido";
-        } else if(empresa.getSenha().equals("")){
+        } else if (empresa.getSenha().equals("")) {
             mensagem = "Senha não preenchida";
-        }
-        
-        if(!mensagem.equals("")){
+        } if (!mensagem.equals("")) {
             throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
         }
-        
+
         Empresa empresaEncontrada = repositoryEmpresa.findByEmailAndSenha(empresa.getEmail(), empresa.getSenha());
-        return tokenservice.gerarToken(empresaEncontrada.getId() ,empresa.getEmail(), empresa.getSenha());
+
+        if (empresaEncontrada == null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Credenciais inválidas");
+        } if ("pendente".equals(empresaEncontrada.getStatus())) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(403), "Seu cadastro ainda está em análise pelo administrador.");
+        } if ("suspenso".equals(empresaEncontrada.getStatus())) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(403), "Seu cadastro foi rejeitado ou suspenso.");
+        }
+        return tokenservice.gerarToken(empresaEncontrada.getId(), empresa.getEmail(), empresa.getSenha());
     }
         public EmpresaRequest buscarPorEmail(String email) {
         Empresa empresa = repositoryEmpresa.findByEmail(email)
@@ -104,5 +111,32 @@ public class EmpresaService {
 
         return dto;
     }
+    
+    public List<EmpresaRequest> listarPendentes() {
+    List<Empresa> pendentes = repositoryEmpresa.findByStatus("pendente");
+    List<EmpresaRequest> resultado = new ArrayList<>();
 
+    for (Empresa e : pendentes) {
+        EmpresaRequest dto = new EmpresaRequest();
+        dto.setId(e.getId());
+        dto.setNome(e.getNome());
+        dto.setEmail(e.getEmail());
+        dto.setCnpj(e.getCnpj());
+        dto.setTelefone(e.getTelefone());
+        dto.setCidade(e.getCidade());
+        dto.setEstado(e.getEstado());
+        dto.setStatus(e.getStatus());
+        resultado.add(dto);
+    }
+
+    return resultado;
+}
+
+    public String alterarStatus(Long id, String novoStatus) {
+    Empresa empresa = repositoryEmpresa.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404), "Empresa não encontrada."));
+    empresa.setStatus(novoStatus);
+    repositoryEmpresa.save(empresa);
+    return "Status atualizado para: " + novoStatus;
+    }
 }

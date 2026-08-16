@@ -11,13 +11,12 @@ import com.techmatch.backend.model.ProfissionalConfiguracao;
 import com.techmatch.backend.dto.ProfissionalRequest;
 import com.techmatch.backend.dto.UserRequestDTO;
 import com.techmatch.backend.model.Especialidade;
-import com.techmatch.backend.model.EspecialidadeProfissionalId;
 import com.techmatch.backend.repository.EspecialidadeProfissionalRepository;
 import com.techmatch.backend.repository.EspecialidadeRepository;
 import com.techmatch.backend.repository.ProfissionalConfiguracaoRepository;
 import com.techmatch.backend.repository.ProfissionalRepository;
-import com.techmatch.backend.service.TokenService;
 import jakarta.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -130,19 +129,26 @@ public class ProfissionalService {
            return "Especialidades associadas com sucesso.";
        }
      
-        public String logar(UserRequestDTO user){
-        String mensagem = "";
-        if(user.getEmail().equals("")){
-            mensagem = "Email não preenchido";
-        } else if(user.getSenha().equals("")){
-            mensagem = "Senha não preenchida";
-        }
-        
-        if(!mensagem.equals("")){
-            throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
-        }
-        Profissional profissional = repository.findByEmailAndSenha(user.getEmail(), user.getSenha());
-            return tokenservice.gerarToken(profissional.getId(),user.getEmail(), user.getSenha());
+        public String logar(UserRequestDTO user) {
+            String mensagem = "";
+            if (user.getEmail().equals("")) {
+                mensagem = "Email não preenchido";
+            } else if (user.getSenha().equals("")) {
+                mensagem = "Senha não preenchida";
+            } if (!mensagem.equals("")) {
+                throw new ResponseStatusException(HttpStatusCode.valueOf(400), mensagem);
+            }
+
+            Profissional profissional = repository.findByEmailAndSenha(user.getEmail(), user.getSenha());
+
+            if (profissional == null) {
+                throw new ResponseStatusException(HttpStatusCode.valueOf(401), "Credenciais inválidas");
+            } if ("pendente".equals(profissional.getStatus())) {
+                throw new ResponseStatusException(HttpStatusCode.valueOf(403), "Seu cadastro ainda está em análise pelo administrador.");
+            } if ("suspenso".equals(profissional.getStatus())) {
+                throw new ResponseStatusException(HttpStatusCode.valueOf(403), "Seu cadastro foi rejeitado ou suspenso.");
+            }
+            return tokenservice.gerarToken(profissional.getId(), user.getEmail(), user.getSenha());
         }
         
         public ProfissionalRequest buscarPorEmail(String email) {
@@ -198,5 +204,32 @@ public class ProfissionalService {
 
         repository.save(profissional);
         return "Perfil atualizado com sucesso.";
+    }
+        
+public List<ProfissionalRequest> listarPendentes() {
+    List<Profissional> pendentes = repository.findByStatus("pendente");
+    List<ProfissionalRequest> resultado = new ArrayList<>();
+
+    for (Profissional p : pendentes) {
+        ProfissionalRequest dto = new ProfissionalRequest();
+        dto.setId(p.getId());
+        dto.setNome(p.getNome());
+        dto.setEmail(p.getEmail());
+        dto.setTelefone(p.getTelefone());
+        dto.setCidade(p.getCidade());
+        dto.setEstado(p.getEstado());
+        dto.setValorHora(p.getValorHora());
+        resultado.add(dto);
+    }
+
+    return resultado;
+}
+
+    public String alterarStatus(Long id, String novoStatus) {
+    Profissional profissional = repository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Profissional não encontrado."));
+    profissional.setStatus(novoStatus);
+    repository.save(profissional);
+    return "Status atualizado para: " + novoStatus;
     }
 }

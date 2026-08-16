@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.techmatch.backend.dto.ChamadoRequest;
 import com.techmatch.backend.dto.MatchResultResponse;
+import com.techmatch.backend.dto.MinhaCandidatura;
 import com.techmatch.backend.model.Chamado;
-import com.techmatch.backend.model.ChamadoResponse;
+import com.techmatch.backend.dto.ChamadoResponse;
 import com.techmatch.backend.model.Empresa;
 import com.techmatch.backend.model.Especialidade;
 import com.techmatch.backend.model.MatchResult;
@@ -27,8 +28,8 @@ import com.techmatch.backend.repository.MatchResultRepository;
 import com.techmatch.backend.repository.ProfissionalConfiguracaoRepository;
 import com.techmatch.backend.repository.ProfissionalRepository;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -101,21 +102,24 @@ public class ChamadoService {
     }
     
     public List<ChamadoResponse> listarAbertos() {
-        return repository.findByStatus("aberto").stream()
-            .map(c -> {
-                ChamadoResponse dto = new ChamadoResponse();
-                dto.setId(c.getId());
-                dto.setDescricao(c.getDescricao());
-                dto.setUrgencia(c.getUrgencia());
-                dto.setStatus(c.getStatus());
-                dto.setOrcamentoMaximo(c.getOrcamentoMaximo());
-                dto.setCidade(c.getCidade());
-                dto.setEstado(c.getEstado());
-                dto.setEspecialidadeNome(c.getEspecialidade().getNome());
-                dto.setEmpresaNome(c.getEmpresa().getNome());
-                return dto;
-            })
-            .collect(Collectors.toList());
+        List<Chamado> chamados = repository.findByStatus("aberto");
+        List<ChamadoResponse> resultado = new ArrayList<>();
+
+        for (Chamado c : chamados) {
+            ChamadoResponse dto = new ChamadoResponse();
+            dto.setId(c.getId());
+            dto.setDescricao(c.getDescricao());
+            dto.setUrgencia(c.getUrgencia());
+            dto.setStatus(c.getStatus());
+            dto.setOrcamentoMaximo(c.getOrcamentoMaximo());
+            dto.setCidade(c.getCidade());
+            dto.setEstado(c.getEstado());
+            dto.setEspecialidadeNome(c.getEspecialidade().getNome());
+            dto.setEmpresaNome(c.getEmpresa().getNome());
+            resultado.add(dto);
+        }
+
+        return resultado;
     }
 
             public String candidatar(Long chamadoId, Long profissionalId) {
@@ -148,19 +152,22 @@ public class ChamadoService {
         return "Candidatura registrada com sucesso.";
     }
 
-    public List<MatchResultResponse> listarCandidatos(Long chamadoId) {
-        return matchResultRepository.findByChamadoIdOrderByScoreTotalDesc(chamadoId).stream()
-            .map(m -> {
-                MatchResultResponse dto = new MatchResultResponse();
-                dto.setId(m.getId());
-                dto.setProfissionalId(m.getProfissional().getId());
-                dto.setProfissionalNome(m.getProfissional().getNome());
-                dto.setValorHora(m.getProfissional().getValorHora().doubleValue());
-                dto.setScoreTotal(m.getScoreTotal().doubleValue());
-                dto.setStatusResposta(m.getStatusResposta());
-                return dto;
-            })
-            .collect(Collectors.toList());
+        public List<MatchResultResponse> listarCandidatos(Long chamadoId) {
+        List<MatchResult> matches = matchResultRepository.findByChamadoIdOrderByScoreTotalDesc(chamadoId);
+        List<MatchResultResponse> resultado = new ArrayList<>();
+
+        for (MatchResult m : matches) {
+            MatchResultResponse dto = new MatchResultResponse();
+            dto.setId(m.getId());
+            dto.setProfissionalId(m.getProfissional().getId());
+            dto.setProfissionalNome(m.getProfissional().getNome());
+            dto.setValorHora(m.getProfissional().getValorHora().doubleValue());
+            dto.setScoreTotal(m.getScoreTotal());
+            dto.setStatusResposta(m.getStatusResposta());
+            resultado.add(dto);
+        }
+
+        return resultado;
     }
 
     public String aceitarCandidato(Long chamadoId, Long matchResultId) {
@@ -191,20 +198,41 @@ public class ChamadoService {
     }
     
     public List<ChamadoResponse> listarPorEmpresa(Long empresaId) {
-    return repository.findByEmpresaId(empresaId).stream()
-        .map(c -> {
-            ChamadoResponse dto = new ChamadoResponse();
-            dto.setId(c.getId());
-            dto.setDescricao(c.getDescricao());
-            dto.setUrgencia(c.getUrgencia());
-            dto.setStatus(c.getStatus());
-            dto.setOrcamentoMaximo(c.getOrcamentoMaximo());
-            dto.setCidade(c.getCidade());
-            dto.setEstado(c.getEstado());
-            dto.setEspecialidadeNome(c.getEspecialidade().getNome());
-            dto.setEmpresaNome(c.getEmpresa().getNome());
-            return dto;
-        })
-        .collect(Collectors.toList());
-}
+    List<Chamado> chamados = repository.findByEmpresaId(empresaId);
+    List<ChamadoResponse> resultado = new ArrayList<>();
+
+    for (Chamado c : chamados) {
+        ChamadoResponse dto = new ChamadoResponse();
+        dto.setId(c.getId());
+        dto.setDescricao(c.getDescricao());
+        dto.setUrgencia(c.getUrgencia());
+        dto.setStatus(c.getStatus());
+        dto.setOrcamentoMaximo(c.getOrcamentoMaximo());
+        dto.setCidade(c.getCidade());
+        dto.setEstado(c.getEstado());
+        dto.setEspecialidadeNome(c.getEspecialidade().getNome());
+        dto.setEmpresaNome(c.getEmpresa().getNome());
+        resultado.add(dto);
+        }
+        return resultado;
+    }
+    
+    public List<MinhaCandidatura> listarMinhasCandidaturas(Long profissionalId) {
+    List<MatchResult> matches = matchResultRepository.findByProfissionalId(profissionalId);
+    List<MinhaCandidatura> resultado = new ArrayList<>();
+
+    for (MatchResult m : matches) {
+        MinhaCandidatura dto = new MinhaCandidatura();
+        dto.setChamadoId(m.getChamado().getId());
+        dto.setDescricao(m.getChamado().getDescricao());
+        dto.setEmpresaNome(m.getChamado().getEmpresa().getNome());
+        dto.setEspecialidadeNome(m.getChamado().getEspecialidade().getNome());
+        dto.setStatusChamado(m.getChamado().getStatus());
+        dto.setStatusResposta(m.getStatusResposta());
+        dto.setScoreTotal(m.getScoreTotal());
+        resultado.add(dto);
+    }
+
+    return resultado;
+    }
 }

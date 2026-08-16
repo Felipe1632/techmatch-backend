@@ -10,7 +10,8 @@ package com.techmatch.backend.controller;
  */
 import com.techmatch.backend.dto.ChamadoRequest;
 import com.techmatch.backend.dto.MatchResultResponse;
-import com.techmatch.backend.model.ChamadoResponse;
+import com.techmatch.backend.dto.MinhaCandidatura;
+import com.techmatch.backend.dto.ChamadoResponse;
 import com.techmatch.backend.service.ChamadoService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,5 +64,10 @@ public class ChamadoController {
     @GetMapping("/empresa/{empresaId}")
     public List<ChamadoResponse> listarPorEmpresa(@PathVariable Long empresaId) {
     return service.listarPorEmpresa(empresaId);
+}
+    
+    @GetMapping("/profissional/{profissionalId}/candidaturas")
+    public List<MinhaCandidatura> listarMinhasCandidaturas(@PathVariable Long profissionalId) {
+    return service.listarMinhasCandidaturas(profissionalId);
 }
 }

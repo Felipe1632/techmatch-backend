@@ -13,35 +13,37 @@ import jakarta.persistence.Table;
 
 /**
  *
- * @author Aluno
+ * @author Usuario
  */
 @Entity
-@Table(name = "especialidade")
-public class Especialidade {
-    
+@Table(name = "admin")
+public class Admin {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(nullable = false)
     private String nome;
-    
-    @Column(nullable = false)
-    private String categoria;
-    
-    @Column(name = "valor_hora_minimo",nullable = false)
-    private Double ValorHoraMinimo;
 
-    public Especialidade() {
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false)
+    private String senha;
+
+    public Admin() {
     }
 
-    public Especialidade(Long id, String nome, String categoria, Double ValorHoraMinimo) {
+    public Admin(Long id, String nome, String email, String senha) {
         this.id = id;
         this.nome = nome;
-        this.categoria = categoria;
-        this.ValorHoraMinimo = ValorHoraMinimo;
+        this.email = email;
+        this.senha = senha;
     }
 
+    
+    
     public Long getId() {
         return id;
     }
@@ -58,21 +60,21 @@ public class Especialidade {
         this.nome = nome;
     }
 
-    public String getCategoria() {
-        return categoria;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public Double getValorHoraMinimo() {
-        return ValorHoraMinimo;
+    public String getSenha() {
+        return senha;
     }
 
-    public void setValorHoraMinimo(Double ValorHoraMinimo) {
-        this.ValorHoraMinimo = ValorHoraMinimo;
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
-
-  
+    
+    
 }
