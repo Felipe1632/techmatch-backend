@@ -6,6 +6,8 @@ package com.techmatch.backend.repository;
 
 import com.techmatch.backend.model.Avaliacao;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long>{
-    
+    @Query("SELECT AVG(a.nota) FROM Avaliacao a WHERE a.profissional.id = :profissionalId")
+    Double mediaNotaPorProfissional(@Param("profissionalId") Long profissionalId);
 }

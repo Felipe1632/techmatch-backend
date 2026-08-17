@@ -8,6 +8,7 @@ package com.techmatch.backend.controller;
  *
  * @author Usuario
  */
+import com.techmatch.backend.dto.AvaliacaoRequest;
 import com.techmatch.backend.dto.ChamadoRequest;
 import com.techmatch.backend.dto.MatchResultResponse;
 import com.techmatch.backend.dto.MinhaCandidatura;
@@ -69,5 +70,25 @@ public class ChamadoController {
     @GetMapping("/profissional/{profissionalId}/candidaturas")
     public List<MinhaCandidatura> listarMinhasCandidaturas(@PathVariable Long profissionalId) {
     return service.listarMinhasCandidaturas(profissionalId);
+}
+    
+    @GetMapping("/abertos/profissional/{profissionalId}")
+    public List<ChamadoResponse> listarAbertosParaProfissional(@PathVariable Long profissionalId) {
+    return service.listarAbertosParaProfissional(profissionalId);
+}
+    
+    @PostMapping("/{chamadoId}/concluir")
+    public ResponseEntity<String> concluir(@PathVariable Long chamadoId) {
+    return ResponseEntity.ok(service.concluirChamado(chamadoId));
+}
+
+    @PostMapping("/{chamadoId}/avaliar")
+    public ResponseEntity<String> avaliar(@PathVariable Long chamadoId, @RequestBody AvaliacaoRequest dto) {
+    return ResponseEntity.ok(service.avaliarProfissional(chamadoId, dto.getNota()));
+}
+    
+    @PostMapping("/{chamadoId}/cancelar")
+    public ResponseEntity<String> cancelar(@PathVariable Long chamadoId) {
+    return ResponseEntity.ok(service.cancelarChamado(chamadoId));
 }
 }

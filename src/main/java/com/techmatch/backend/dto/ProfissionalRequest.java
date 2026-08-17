@@ -7,16 +7,14 @@ package com.techmatch.backend.dto;
 import com.techmatch.backend.model.EspecialidadeProfissional;
 import java.math.BigDecimal;
 import java.util.List;
-import org.springframework.stereotype.Service;
+
 
 /**
  *
  * @author Aluno
  */
 public class ProfissionalRequest {
-    //profissional
-    public Long id;
-    
+    public Long id;   
     public String nome;
     public String email;
     public String senha;
@@ -24,14 +22,13 @@ public class ProfissionalRequest {
     public String telefone;
     public String cidade;
     public String estado;
+    public String status;
     public BigDecimal valorHora;
     private Integer RaioAtendimentoKm;
     private List<EspecialidadeProfissional> especialidades;
-    
-    public ProfissionalRequest() {
-    }
+    public Double score;
 
-    public ProfissionalRequest(Long id, String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, BigDecimal valorHora, Integer RaioAtendimentoKm, List<EspecialidadeProfissional> especialidades) {
+    public ProfissionalRequest(Long id, String nome, String email, String senha, String cpf, String telefone, String cidade, String estado, String status, BigDecimal valorHora, Integer RaioAtendimentoKm, List<EspecialidadeProfissional> especialidades, Double score) {
         this.id = id;
         this.nome = nome;
         this.email = email;
@@ -40,9 +37,11 @@ public class ProfissionalRequest {
         this.telefone = telefone;
         this.cidade = cidade;
         this.estado = estado;
+        this.status = status;
         this.valorHora = valorHora;
         this.RaioAtendimentoKm = RaioAtendimentoKm;
         this.especialidades = especialidades;
+        this.score = score;
     }
 
     public Long getId() {
@@ -109,6 +108,14 @@ public class ProfissionalRequest {
         this.estado = estado;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public BigDecimal getValorHora() {
         return valorHora;
     }
@@ -133,5 +140,16 @@ public class ProfissionalRequest {
         this.especialidades = especialidades;
     }
 
- 
+    public Double getScore() {
+        return score;
+    }
+
+    public void setScore(Double score) {
+        this.score = score;
+    }
+    
+    public ProfissionalRequest() {
+    }
+
+
 }

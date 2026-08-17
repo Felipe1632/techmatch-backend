@@ -62,4 +62,14 @@ public class AdminController {
     public ResponseEntity<String> rejeitarEmpresa(@PathVariable Long id) {
         return ResponseEntity.ok(empresaService.alterarStatus(id, "suspenso"));
     }
+    
+    @GetMapping("/profissionais")
+    public List<ProfissionalRequest> listarTodosProfissionais() {
+    return profissionalService.listarTodos();
+}
+
+    @GetMapping("/empresas")
+    public List<EmpresaRequest> listarTodasEmpresas() {
+    return empresaService.listarTodas();
+}
 }

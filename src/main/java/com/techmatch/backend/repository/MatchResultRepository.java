@@ -18,4 +18,6 @@ public interface MatchResultRepository extends JpaRepository<MatchResult, Long>{
     List<MatchResult> findByChamadoIdOrderByScoreTotalDesc(Long chamadoId);
     
     List<MatchResult> findByProfissionalId(Long profissionalId);
+    
+    List<MatchResult> findByChamadoIdAndProfissionalId(Long chamadoId, Long profissionalId);
 }

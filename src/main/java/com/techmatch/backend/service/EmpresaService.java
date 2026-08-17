@@ -139,4 +139,24 @@ public class EmpresaService {
     repositoryEmpresa.save(empresa);
     return "Status atualizado para: " + novoStatus;
     }
+    
+    public List<EmpresaRequest> listarTodas() {
+    List<Empresa> todas = repositoryEmpresa.findAll();
+    List<EmpresaRequest> resultado = new ArrayList<>();
+
+    for (Empresa e : todas) {
+        EmpresaRequest dto = new EmpresaRequest();
+        dto.setId(e.getId());
+        dto.setNome(e.getNome());
+        dto.setEmail(e.getEmail());
+        dto.setCnpj(e.getCnpj());
+        dto.setTelefone(e.getTelefone());
+        dto.setCidade(e.getCidade());
+        dto.setEstado(e.getEstado());
+        dto.setStatus(e.getStatus());
+        resultado.add(dto);
+    }
+
+    return resultado;
+}
 }

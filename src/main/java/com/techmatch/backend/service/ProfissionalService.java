@@ -172,6 +172,8 @@ public class ProfissionalService {
 
             if (config != null) {
                 dto.setRaioAtendimentoKm(config.getRaioAtendimentoKm());
+                dto.setRaioAtendimentoKm(config.getRaioAtendimentoKm());
+                dto.setScore(config.getScore().doubleValue());
             }
 
             return dto;
@@ -232,4 +234,24 @@ public List<ProfissionalRequest> listarPendentes() {
     repository.save(profissional);
     return "Status atualizado para: " + novoStatus;
     }
+    
+    public List<ProfissionalRequest> listarTodos() {
+    List<Profissional> todos = repository.findAll();
+    List<ProfissionalRequest> resultado = new ArrayList<>();
+
+    for (Profissional p : todos) {
+        ProfissionalRequest dto = new ProfissionalRequest();
+        dto.setId(p.getId());
+        dto.setNome(p.getNome());
+        dto.setEmail(p.getEmail());
+        dto.setTelefone(p.getTelefone());
+        dto.setCidade(p.getCidade());
+        dto.setEstado(p.getEstado());
+        dto.setValorHora(p.getValorHora());
+        dto.setStatus(p.getStatus());
+        resultado.add(dto);
+    }
+
+    return resultado;
+}
 }

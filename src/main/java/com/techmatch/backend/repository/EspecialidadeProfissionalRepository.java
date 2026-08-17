@@ -4,10 +4,12 @@
  */
 package com.techmatch.backend.repository;
 
+import com.techmatch.backend.model.Especialidade;
 import com.techmatch.backend.model.EspecialidadeProfissional;
 import com.techmatch.backend.model.Profissional;
 import jakarta.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -26,4 +28,6 @@ public interface EspecialidadeProfissionalRepository extends JpaRepository<Espec
     @Modifying
     @Query("delete from EspecialidadeProfissional e where e.profissional.id = :profissionalId and e.especialidade.id = :especialidadeId")
     void removerPorProfissionalEEspecialidade(@Param("profissionalId") Long profissionalId, @Param("especialidadeId") Long especialidadeId);
+    
+    Optional<EspecialidadeProfissional> findByProfissionalAndEspecialidade(Profissional profissional, Especialidade especialidade);
 }
